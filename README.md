@@ -40,7 +40,7 @@ A lightweight, clean, and fast CRM built with **React (Vite)**, **TypeScript**, 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/varshanth-c/crm.git
+git clone https://github.com/varshanth-c/CRM.git
 cd simple-crm
 
 ```
