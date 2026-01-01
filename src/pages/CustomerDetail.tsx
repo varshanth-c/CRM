@@ -18,15 +18,15 @@ export default function CustomerDetail() {
   // Interaction Form State
   const [note, setNote] = useState('');
   const [type, setType] = useState<'call' | 'email' | 'meeting'>('call');
-  const [followUpDate, setFollowUpDate] = useState(''); // <--- NEW: Date State
+  const [followUpDate, setFollowUpDate] = useState('');
 
   useEffect(() => {
     if (id) fetchData();
   }, [id]);
 
   async function fetchData() {
-    const { data: custData } = await supabase.from('customers').select('*').eq('id', id).single();
-    const { data: intData } = await supabase.from('interactions').select('*').eq('customer_id', id).order('interaction_date', { ascending: false });
+    const { data: custData } = await supabase.from('customers').select('*').eq('id', id!).single();
+    const { data: intData } = await supabase.from('interactions').select('*').eq('customer_id', id!).order('interaction_date', { ascending: false });
 
     if (custData) setCustomer(custData);
     if (intData) setInteractions(intData);
@@ -38,13 +38,16 @@ export default function CustomerDetail() {
     if (!note.trim() || !id) return;
     const { data: { user } } = await supabase.auth.getUser();
 
+    // STRICT CHECK: Ensure user exists
+    if (!user || !user.id) return;
+
     const { error } = await supabase.from('interactions').insert([{
       customer_id: id,
-      user_id: user?.id,
+      user_id: user.id, // TS safe now
       type,
       notes: note,
       interaction_date: new Date().toISOString(),
-      follow_up_date: followUpDate ? new Date(followUpDate).toISOString() : null // <--- Save Date
+      follow_up_date: followUpDate ? new Date(followUpDate).toISOString() : null
     }]);
 
     if (!error) {
@@ -56,7 +59,7 @@ export default function CustomerDetail() {
 
   const handleDeleteCustomer = async () => {
     if (confirm('Are you sure? This will delete the customer and all history.')) {
-      await supabase.from('customers').delete().eq('id', id);
+      await supabase.from('customers').delete().eq('id', id!);
       navigate('/customers');
     }
   };
@@ -100,7 +103,7 @@ export default function CustomerDetail() {
                   <button key={t} type="button" onClick={() => setType(t as any)} className={`px-3 py-1.5 rounded-lg text-sm capitalize transition ${type === t ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>{t}</button>
                 ))}
               </div>
-              <textarea required placeholder="Interaction notes..." className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:outline-none min-h-[80px]" value={note} onChange={(e) => setNote(e.target.value)} />
+              <textarea required placeholder="Interaction notes..." className="w-full p-3 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:outline-none min-h-[80px]" value={note} onChange={(e) => setNote(e.target.value)} />
               
               <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div className="flex items-center gap-2 text-sm text-slate-600 w-full sm:w-auto">
@@ -108,7 +111,7 @@ export default function CustomerDetail() {
                    <span className="whitespace-nowrap">Follow up:</span>
                    <input 
                      type="date" 
-                     className="border border-slate-300 rounded px-2 py-1 text-sm focus:outline-none focus:border-slate-900"
+                     className="bg-white border border-slate-300 rounded px-2 py-1 text-sm focus:outline-none focus:border-slate-900"
                      value={followUpDate}
                      onChange={(e) => setFollowUpDate(e.target.value)}
                    />

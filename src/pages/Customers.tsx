@@ -58,9 +58,15 @@ export default function Customers() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    
+    // STRICT CHECK: Ensure user exists before proceeding
+    if (!user || !user.id) {
+      alert('You must be logged in');
+      return;
+    }
 
     let error;
+    const currentStatus = formData.status as 'Lead' | 'Active' | 'Closed';
 
     if (editingId) {
       const { error: updateError } = await supabase
@@ -69,7 +75,7 @@ export default function Customers() {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          status: formData.status as 'Lead' | 'Active' | 'Closed',
+          status: currentStatus,
         })
         .eq('id', editingId);
       error = updateError;
@@ -77,11 +83,11 @@ export default function Customers() {
       const { error: insertError } = await supabase
         .from('customers')
         .insert([{
-          user_id: user.id,
+          user_id: user.id, // TS now knows this is definitely a string
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          status: formData.status as 'Lead' | 'Active' | 'Closed',
+          status: currentStatus,
         }]);
       error = insertError;
     }
@@ -138,32 +144,10 @@ export default function Customers() {
             </button>
           </div>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input 
-              placeholder="Full Name" 
-              required 
-              className="px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" 
-              value={formData.name} 
-              onChange={e => setFormData({...formData, name: e.target.value})} 
-            />
-            <input 
-              placeholder="Email" 
-              type="email" 
-              className="px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" 
-              value={formData.email} 
-              onChange={e => setFormData({...formData, email: e.target.value})} 
-            />
-            <input 
-              placeholder="Phone" 
-              type="tel" 
-              className="px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" 
-              value={formData.phone} 
-              onChange={e => setFormData({...formData, phone: e.target.value})} 
-            />
-            <select 
-              className="px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" 
-              value={formData.status} 
-              onChange={e => setFormData({...formData, status: e.target.value})}
-            >
+            <input placeholder="Full Name" required className="px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+            <input placeholder="Email" type="email" className="px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+            <input placeholder="Phone" type="tel" className="px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+            <select className="px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" value={formData.status} onChange={e => setFormData({...formData, status: e.target.value})}>
               <option value="Lead">Lead</option>
               <option value="Active">Active</option>
               <option value="Closed">Closed</option>

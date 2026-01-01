@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'; // <--- Removed React default import
 import { supabase } from '../lib/supabase';
 import { Users, Target, CheckCircle, Clock, Calendar, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({ total: 0, leads: 0, active: 0, closed: 0 });
-  const [followUps, setFollowUps] = useState<any[]>([]);
+  const [followUps, setFollowUps] = useState<any[]>([]); // Keeping as any for complex join
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,8 +21,7 @@ export default function Dashboard() {
         });
       }
 
-      // 2. Fetch Upcoming Follow-ups (interactions with a future date)
-      // Note: We use a join here to get the customer name
+      // 2. Fetch Upcoming Follow-ups
       const { data: upcoming } = await supabase
         .from('interactions')
         .select(`
