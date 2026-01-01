@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Force the app to take full height and width */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure inputs are always white with black text */
+input, select, textarea {
+  background-color: #ffffff;
+  color: #0f172a; /* Slate 900 */
+}
