@@ -56,17 +56,16 @@ Manage private customers, track calls/emails, and set follow-ups.
 ---
 
 ### Clone Repository
+- git clone https://github.com/varshanth-c/CRM.git
+- cd simple-crm
+- npm install
 
-git clone https://github.com/varshanth-c/CRM.git
-cd simple-crm
-npm install
 
+### Supabase Database Setup
+
+- Open Supabase Dashboard → SQL Editor
+- Run the following:
 ```bash
-Supabase Database Setup
-
-Open Supabase Dashboard → SQL Editor
-Run the following:
-
 -- Tables
 create table profiles (
   id uuid references auth.users on delete cascade primary key,
@@ -125,24 +124,22 @@ $$ language plpgsql security definer;
 create trigger on_auth_user_created
 after insert on auth.users
 for each row execute procedure public.handle_new_user();
+```
+### Environment Variables
 
-4. Environment Variables
+- Create .env in root:
 
-Create .env in root:
+- VITE_SUPABASE_URL=your_project_url
+- VITE_SUPABASE_ANON_KEY=your_anon_key
 
-VITE_SUPABASE_URL=your_project_url
-VITE_SUPABASE_ANON_KEY=your_anon_key
+### Start Application
+- npm run dev
+- Open: http://localhost:5173
 
-5. Start Application
-npm run dev
+### 🧪 Add Test Data (Optional)
 
-
-Open: http://localhost:5173
-
-🧪 Add Test Data (Optional)
-
-Run after signing up:
-
+- Run after signing up:
+```bash
 DO $$
 DECLARE
   my_uid uuid;
@@ -166,8 +163,10 @@ BEGIN
     NOW() + INTERVAL '1 day'
   );
 END $$;
+```
 
-📂 Project Structure
+### 📂 Project Structure
+```bash
 src/
 ├── components/
 ├── contexts/
@@ -182,9 +181,9 @@ src/
 │   └── CustomerDetail.tsx
 ├── types/
 └── App.tsx
-
-🚢 Deployment (Vercel)
-
+```
+### 🚢 Deployment (Vercel)
+```bash
 Create vercel.json:
 
 {
@@ -192,9 +191,4 @@ Create vercel.json:
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
-
-✅ Finished
-
-SimpleCRM is ready 🚀
-
----
+```
