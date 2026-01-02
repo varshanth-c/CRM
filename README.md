@@ -61,6 +61,7 @@ git clone https://github.com/varshanth-c/CRM.git
 cd simple-crm
 npm install
 
+---
 
 3. Supabase Database Setup
 
