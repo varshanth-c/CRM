@@ -38,9 +38,9 @@ export default function Layout() {
               {/* Logo */}
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold">
-                  S
+                  C
                 </div>
-                <span className="text-xl font-bold text-slate-900">SimpleCRM</span>
+                <span className="text-xl font-bold text-slate-900">CRM</span>
               </div>
 
               {/* Desktop Menu */}
