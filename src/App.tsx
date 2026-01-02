@@ -6,7 +6,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';  // <--- Import
 import Customers from './pages/Customers';  // <--- Import
 import CustomerDetail from './pages/CustomerDetail'; // <--- Import this
-
+import ForgotPassword from './pages/ForgotPassword';
 export default function App() {
   return (
     <BrowserRouter>
@@ -14,7 +14,7 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/customers" element={<Customers />} />
