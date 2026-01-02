@@ -191,4 +191,5 @@ Create vercel.json:
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
+
 ```
