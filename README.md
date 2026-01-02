@@ -56,7 +56,7 @@ Manage private customers, track calls/emails, and set follow-ups.
 ---
 
 ### 2. Clone Repository
-```bash
+
 git clone https://github.com/varshanth-c/CRM.git
 cd simple-crm
 npm install
