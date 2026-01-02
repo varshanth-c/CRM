@@ -56,11 +56,12 @@ Manage private customers, track calls/emails, and set follow-ups.
 ---
 
 ### Clone Repository
-```bash
+
 git clone https://github.com/varshanth-c/CRM.git
 cd simple-crm
 npm install
 
+```bash
 Supabase Database Setup
 
 Open Supabase Dashboard → SQL Editor
@@ -195,6 +196,5 @@ Create vercel.json:
 ✅ Finished
 
 SimpleCRM is ready 🚀
-
 
 ---
