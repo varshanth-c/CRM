@@ -49,21 +49,19 @@ Manage private customers, track calls/emails, and set follow-ups.
 
 ## 📦 Run Locally
 
-### 1. Prerequisites
+### Prerequisites
 - Node.js
 - Supabase account
 
 ---
 
-### 2. Clone Repository
-
+### Clone Repository
+```bash
 git clone https://github.com/varshanth-c/CRM.git
 cd simple-crm
 npm install
 
----
-
-3. Supabase Database Setup
+Supabase Database Setup
 
 Open Supabase Dashboard → SQL Editor
 Run the following:
